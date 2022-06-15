@@ -5,8 +5,10 @@ using UnityEngine;
 public class PlayerControllerX : MonoBehaviour
 {
     private Rigidbody playerRb;
-    private float speed = 500;
     private GameObject focalPoint;
+    public ParticleSystem SpeedBoostParticle;
+    private float speedBoost = 1000;
+    private float speed = 500;
 
     public bool hasPowerup;
     public GameObject powerupIndicator;
@@ -30,6 +32,11 @@ public class PlayerControllerX : MonoBehaviour
         // Set powerup indicator position to beneath player
         powerupIndicator.transform.position = transform.position + new Vector3(0, -0.6f, 0);
 
+        if (Input.GetKey(KeyCode.Space))
+        {
+            playerRb.AddForce(focalPoint.transform.forward * speedBoost * Time.deltaTime);
+            SpeedBoostParticle.Play();
+        }
     }
 
     // If Player collides with powerup, activate powerup

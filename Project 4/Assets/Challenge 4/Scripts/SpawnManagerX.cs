@@ -13,7 +13,8 @@ public class SpawnManagerX : MonoBehaviour
 
     public int enemyCount;
     public int waveCount = 1;
-
+    public int speedIncreasePerWave;
+    public int speedInitial;
 
     public GameObject player;
 
@@ -24,7 +25,7 @@ public class SpawnManagerX : MonoBehaviour
 
         if (enemyCount == 0)
         {
-            SpawnEnemyWave(waveCount);
+            SpawnEnemyWave();
         }
 
     }
@@ -38,7 +39,7 @@ public class SpawnManagerX : MonoBehaviour
     }
 
 
-    void SpawnEnemyWave(int enemiesToSpawn)
+    void SpawnEnemyWave()
     {
         Vector3 powerupSpawnOffset = new Vector3(0, 0, -15); // make powerups spawn at player end
 
@@ -51,7 +52,9 @@ public class SpawnManagerX : MonoBehaviour
         // Spawn number of enemy balls based on wave number
         for (int i = 0; i < waveCount; i++)
         {
-            Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation);
+            GameObject enemyGameObject = Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation);
+            EnemyX enemy = enemyGameObject.GetComponent<EnemyX>();
+            enemy.speed = speedInitial + (waveCount - 1) * speedIncreasePerWave;
         }
 
         waveCount++;
